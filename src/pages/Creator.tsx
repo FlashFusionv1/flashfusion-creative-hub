@@ -1,15 +1,15 @@
 import Navigation from "@/components/Navigation";
-import Landing from "@/components/Landing";
+import CreatorDashboard from "@/components/CreatorDashboard";
 
-const Index = () => {
+const Creator = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
       <div className="pt-16">
-        <Landing />
+        <CreatorDashboard />
       </div>
     </div>
   );
 };
 
-export default Index;
+export default Creator;
