@@ -88,8 +88,8 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
 
   const handleSaveCard = async () => {
     // Validate inputs before saving
-    const questionValidation = validateQuestion(formData.question);
-    const answerValidation = validateAnswer(formData.answer);
+    const questionValidation = validateQuestion(formData.question, user?.id);
+    const answerValidation = validateAnswer(formData.answer, user?.id);
 
     if (!questionValidation.isValid) {
       toast({
@@ -225,8 +225,8 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
       const aiCard = response.data;
       
       // Validate AI-generated content
-      const questionValidation = validateQuestion(aiCard.question || '');
-      const answerValidation = validateAnswer(aiCard.answer || '');
+      const questionValidation = validateQuestion(aiCard.question || '', user?.id);
+      const answerValidation = validateAnswer(aiCard.answer || '', user?.id);
 
       if (!questionValidation.isValid || !answerValidation.isValid) {
         toast({

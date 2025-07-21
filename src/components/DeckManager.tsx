@@ -88,8 +88,8 @@ const DeckManager = ({ onStudyDeck, onEditDeck }: DeckManagerProps) => {
 
   const handleSaveDeck = async () => {
     // Validate inputs before saving
-    const titleValidation = validateTitle(formData.title);
-    const descriptionValidation = validateDescription(formData.description);
+    const titleValidation = validateTitle(formData.title, user?.id);
+    const descriptionValidation = validateDescription(formData.description, user?.id);
 
     if (!titleValidation.isValid) {
       toast({

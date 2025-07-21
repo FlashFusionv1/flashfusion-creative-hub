@@ -10,6 +10,7 @@ import Creator from "./pages/Creator";
 import Owner from "./pages/Owner";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import SecurityDebugPanel from "./components/SecurityDebugPanel";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <SecurityDebugPanel />
       </TooltipProvider>
     </AuthProvider>
   </QueryClientProvider>
