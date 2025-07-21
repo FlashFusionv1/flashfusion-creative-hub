@@ -1,9 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { Sparkles, Menu } from "lucide-react";
+import { Sparkles, Menu, LogOut, User } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur border-b">
@@ -28,12 +37,48 @@ const Navigation = () => {
             <a href="#docs" className="text-muted-foreground hover:text-foreground transition-colors">
               Docs
             </a>
-            <Button variant="outline" size="sm">
-              Sign In
-            </Button>
-            <Button size="sm" className="bg-gradient-to-r from-primary to-accent">
-              Get Started
-            </Button>
+            
+            {user ? (
+              <>
+                <Link to="/creator">
+                  <Button variant="ghost" size="sm">
+                    Creator
+                  </Button>
+                </Link>
+                <Link to="/owner">
+                  <Button variant="ghost" size="sm">
+                    Owner
+                  </Button>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm">
+                      <User className="w-4 h-4 mr-2" />
+                      {user.email}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="bg-background border">
+                    <DropdownMenuItem onClick={signOut} className="text-red-600">
+                      <LogOut className="w-4 h-4 mr-2" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="outline" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button size="sm" className="bg-gradient-to-r from-primary to-accent">
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -61,12 +106,42 @@ const Navigation = () => {
               Docs
             </a>
             <div className="flex flex-col gap-2 pt-4">
-              <Button variant="outline" size="sm">
-                Sign In
-              </Button>
-              <Button size="sm" className="bg-gradient-to-r from-primary to-accent">
-                Get Started
-              </Button>
+              {user ? (
+                <>
+                  <Link to="/creator">
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      Creator Dashboard
+                    </Button>
+                  </Link>
+                  <Link to="/owner">
+                    <Button variant="ghost" size="sm" className="w-full justify-start">
+                      Owner Dashboard
+                    </Button>
+                  </Link>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={signOut}
+                    className="text-red-600 border-red-200"
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/auth">
+                    <Button variant="outline" size="sm" className="w-full">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link to="/auth">
+                    <Button size="sm" className="bg-gradient-to-r from-primary to-accent w-full">
+                      Get Started
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
