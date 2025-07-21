@@ -2,3 +2,6 @@ project_id = "dswosmoivswodjgqrwqr"
 
 [functions.generate-image]
 verify_jwt = true
+
+[functions.generate-flashcard]
+verify_jwt = true
