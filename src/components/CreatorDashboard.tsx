@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,10 +12,14 @@ import {
   Settings,
   Plus,
   Sparkles,
-  ShoppingBag
+  ShoppingBag,
+  Image as ImageIcon
 } from "lucide-react";
+import ImageGenerator from "./ImageGenerator";
 
 const CreatorDashboard = () => {
+  const [activeTab, setActiveTab] = useState("studio");
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -40,9 +45,10 @@ const CreatorDashboard = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <Tabs defaultValue="studio" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="studio">AI Studio</TabsTrigger>
+            <TabsTrigger value="image-gen">Image Generator</TabsTrigger>
             <TabsTrigger value="projects">My Projects</TabsTrigger>
             <TabsTrigger value="publish">Publish</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
@@ -51,6 +57,23 @@ const CreatorDashboard = () => {
           <TabsContent value="studio" className="space-y-6">
             {/* AI Tools Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg">
+                <CardHeader>
+                  <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-2">
+                    <ImageIcon className="w-6 h-6 text-white" />
+                  </div>
+                  <CardTitle>AI Image Generator</CardTitle>
+                  <CardDescription>
+                    Create stunning images using advanced AI technology
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full" onClick={() => setActiveTab("image-gen")}>
+                    Generate Images
+                  </Button>
+                </CardContent>
+              </Card>
+
               <Card className="border-primary/20 hover:border-primary/40 transition-all hover:shadow-lg">
                 <CardHeader>
                   <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-2">
@@ -128,6 +151,10 @@ const CreatorDashboard = () => {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="image-gen" className="space-y-6">
+            <ImageGenerator />
           </TabsContent>
 
           <TabsContent value="projects" className="space-y-6">
