@@ -14,7 +14,202 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      decks: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          id: string
+          is_public: boolean | null
+          title: string
+          total_cards: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          title: string
+          total_cards?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_public?: boolean | null
+          title?: string
+          total_cards?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      flashcard_performance: {
+        Row: {
+          answered_at: string
+          flashcard_id: string
+          id: string
+          is_correct: boolean
+          response_time_ms: number | null
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          answered_at?: string
+          flashcard_id: string
+          id?: string
+          is_correct: boolean
+          response_time_ms?: number | null
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          answered_at?: string
+          flashcard_id?: string
+          id?: string
+          is_correct?: boolean
+          response_time_ms?: number | null
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcard_performance_flashcard_id_fkey"
+            columns: ["flashcard_id"]
+            isOneToOne: false
+            referencedRelation: "flashcards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "flashcard_performance_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "study_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      flashcards: {
+        Row: {
+          answer: string
+          card_order: number | null
+          created_at: string
+          deck_id: string
+          difficulty_level: number | null
+          id: string
+          question: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          card_order?: number | null
+          created_at?: string
+          deck_id: string
+          difficulty_level?: number | null
+          id?: string
+          question: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          card_order?: number | null
+          created_at?: string
+          deck_id?: string
+          difficulty_level?: number | null
+          id?: string
+          question?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "flashcards_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      study_sessions: {
+        Row: {
+          correct_answers: number | null
+          deck_id: string
+          ended_at: string | null
+          id: string
+          incorrect_answers: number | null
+          started_at: string
+          total_cards_studied: number | null
+          user_id: string
+        }
+        Insert: {
+          correct_answers?: number | null
+          deck_id: string
+          ended_at?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          started_at?: string
+          total_cards_studied?: number | null
+          user_id: string
+        }
+        Update: {
+          correct_answers?: number | null
+          deck_id?: string
+          ended_at?: string | null
+          id?: string
+          incorrect_answers?: number | null
+          started_at?: string
+          total_cards_studied?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "study_sessions_deck_id_fkey"
+            columns: ["deck_id"]
+            isOneToOne: false
+            referencedRelation: "decks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
