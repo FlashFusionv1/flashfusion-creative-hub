@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { validateQuestion, validateAnswer, rateLimiter } from "@/lib/security";
 import { Plus, Edit, Trash2, Brain, ArrowLeft } from "lucide-react";
 
 interface Flashcard {
@@ -86,11 +87,52 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
   };
 
   const handleSaveCard = async () => {
+    // Validate inputs before saving
+    const questionValidation = validateQuestion(formData.question);
+    const answerValidation = validateAnswer(formData.answer);
+
+    if (!questionValidation.isValid) {
+      toast({
+        title: "Invalid Question",
+        description: questionValidation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!answerValidation.isValid) {
+      toast({
+        title: "Invalid Answer",
+        description: answerValidation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Rate limiting check
+    const userId = user?.id || 'anonymous';
+    if (!rateLimiter.canAttempt(`save-card-${userId}`, 10, 60000)) {
+      const remainingTime = Math.ceil(rateLimiter.getRemainingTime(`save-card-${userId}`, 60000) / 1000);
+      toast({
+        title: "Rate Limit Exceeded",
+        description: `Please wait ${remainingTime} seconds before creating more cards`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
+      // Use sanitized content
+      const sanitizedData = {
+        question: questionValidation.sanitized!,
+        answer: answerValidation.sanitized!,
+        difficulty_level: formData.difficulty_level,
+      };
+
       if (editingCard) {
         const { error } = await supabase
           .from("flashcards")
-          .update(formData)
+          .update(sanitizedData)
           .eq("id", editingCard.id);
 
         if (error) throw error;
@@ -99,7 +141,7 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
         const { error } = await supabase
           .from("flashcards")
           .insert([{ 
-            ...formData, 
+            ...sanitizedData, 
             deck_id: deckId,
             card_order: flashcards.length + 1
           }]);
@@ -161,6 +203,18 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
   };
 
   const generateFlashcardWithAI = async () => {
+    // Rate limiting for AI generation
+    const userId = user?.id || 'anonymous';
+    if (!rateLimiter.canAttempt(`ai-generate-${userId}`, 3, 60000)) {
+      const remainingTime = Math.ceil(rateLimiter.getRemainingTime(`ai-generate-${userId}`, 60000) / 1000);
+      toast({
+        title: "Rate Limit Exceeded",
+        description: `Please wait ${remainingTime} seconds before generating more cards`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       const response = await supabase.functions.invoke('generate-flashcard', {
         body: { deckTitle: deck?.title || "General" }
@@ -169,9 +223,23 @@ const FlashcardEditor = ({ deckId, onBack }: FlashcardEditorProps) => {
       if (response.error) throw response.error;
 
       const aiCard = response.data;
+      
+      // Validate AI-generated content
+      const questionValidation = validateQuestion(aiCard.question || '');
+      const answerValidation = validateAnswer(aiCard.answer || '');
+
+      if (!questionValidation.isValid || !answerValidation.isValid) {
+        toast({
+          title: "Error",
+          description: "Generated content failed validation. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       setFormData({
-        question: aiCard.question,
-        answer: aiCard.answer,
+        question: questionValidation.sanitized!,
+        answer: answerValidation.sanitized!,
         difficulty_level: aiCard.difficulty || 1,
       });
       setShowCreateDialog(true);

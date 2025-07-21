@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { validateTitle, validateDescription, rateLimiter } from "@/lib/security";
 import { Plus, BookOpen, Users, Lock, Edit, Trash2, Eye } from "lucide-react";
 
 interface Deck {
@@ -86,11 +87,53 @@ const DeckManager = ({ onStudyDeck, onEditDeck }: DeckManagerProps) => {
   };
 
   const handleSaveDeck = async () => {
+    // Validate inputs before saving
+    const titleValidation = validateTitle(formData.title);
+    const descriptionValidation = validateDescription(formData.description);
+
+    if (!titleValidation.isValid) {
+      toast({
+        title: "Invalid Title",
+        description: titleValidation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!descriptionValidation.isValid) {
+      toast({
+        title: "Invalid Description",
+        description: descriptionValidation.error,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Rate limiting check
+    const userId = user?.id || 'anonymous';
+    if (!rateLimiter.canAttempt(`save-deck-${userId}`, 5, 60000)) {
+      const remainingTime = Math.ceil(rateLimiter.getRemainingTime(`save-deck-${userId}`, 60000) / 1000);
+      toast({
+        title: "Rate Limit Exceeded",
+        description: `Please wait ${remainingTime} seconds before creating more decks`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
+      // Use sanitized content
+      const sanitizedData = {
+        title: titleValidation.sanitized!,
+        description: descriptionValidation.sanitized!,
+        category: formData.category,
+        is_public: formData.is_public,
+      };
+
       if (editingDeck) {
         const { error } = await supabase
           .from("decks")
-          .update(formData)
+          .update(sanitizedData)
           .eq("id", editingDeck.id);
 
         if (error) throw error;
@@ -98,7 +141,7 @@ const DeckManager = ({ onStudyDeck, onEditDeck }: DeckManagerProps) => {
       } else {
         const { error } = await supabase
           .from("decks")
-          .insert([{ ...formData, user_id: user?.id }]);
+          .insert([{ ...sanitizedData, user_id: user?.id }]);
 
         if (error) throw error;
         toast({ title: "Success", description: "Deck created successfully" });
