@@ -1,7 +1,7 @@
 # FlashFusion Creative Hub - Product Roadmap
 
-**Document Version:** 1.0.0
-**Last Updated:** December 21, 2025
+**Document Version:** 2.0.0
+**Last Updated:** December 30, 2025
 **Status:** Active Development
 
 ---
@@ -12,612 +12,576 @@ FlashFusion Creative Hub aims to become the premier AI-powered learning and crea
 
 ---
 
+## Current State: MVP Complete
+
+### What's Built
+
+| Category | Feature | Status |
+|----------|---------|--------|
+| **Core** | Flashcard CRUD | Complete |
+| **Core** | Deck Management | Complete |
+| **Core** | Study Sessions | Complete |
+| **Core** | Performance Tracking | Complete |
+| **Analytics** | Progress Charts | Complete |
+| **Analytics** | Study Streaks | Complete |
+| **AI** | Flashcard Generation (GPT-4o-mini) | Complete |
+| **AI** | Image Generation (DALL-E) | Complete |
+| **Security** | Input Validation | Complete |
+| **Security** | RLS Policies | Complete |
+| **Security** | Audit Logging | Complete |
+| **Auth** | Email/Password | Complete |
+| **UI** | Creator Dashboard | Complete |
+| **UI** | Owner Dashboard | Complete |
+
+### Known Gaps
+
+| Gap | Priority | Phase |
+|-----|----------|-------|
+| Image generation lacks auth | Critical | 1 |
+| CORS wildcard configuration | High | 1 |
+| No MFA support | High | 1 |
+| TypeScript strict mode off | Medium | 2 |
+| No database indexes | Medium | 2 |
+| No test coverage | Medium | 3 |
+| No spaced repetition | Medium | 4 |
+
+---
+
 ## Roadmap Overview
 
-| Phase | Name | Focus Area | Status |
-|-------|------|------------|--------|
-| 1 | Security Hardening | Security & Compliance | 🟡 In Progress |
-| 2 | Performance Optimization | Speed & Efficiency | 📋 Planned |
-| 3 | Testing Infrastructure | Quality Assurance | 📋 Planned |
-| 4 | Enhanced Study Features | Core Learning | 📋 Planned |
-| 5 | AI Capabilities Expansion | AI/ML Features | 📋 Planned |
-| 6 | Social & Collaboration | Community Features | 📋 Planned |
-| 7 | Mobile Experience | Cross-Platform | 📋 Planned |
-| 8 | Monetization & Business | Revenue Streams | 📋 Planned |
-| 9 | Analytics & Insights | Data Intelligence | 📋 Planned |
-| 10 | Enterprise Features | B2B Expansion | 📋 Planned |
-| 11 | Accessibility & i18n | Global Reach | 📋 Planned |
-| 12 | Platform Ecosystem | Developer Tools | 📋 Planned |
+```
+MVP COMPLETE
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 1: Security Hardening (Critical)                        │
+│  Fix auth gaps, rate limiting, CORS, MFA                        │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 2: Performance Optimization                              │
+│  Lazy loading, indexes, caching, code splitting                 │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 3: Testing Infrastructure                                │
+│  Vitest, Playwright, CI/CD, coverage                            │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 4: Enhanced Study Features                               │
+│  SRS algorithm, multiple study modes, content organization      │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 5: AI Capabilities Expansion                             │
+│  Bulk generation, document parsing, personalization             │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 6: Social & Collaboration                                │
+│  Profiles, marketplace, real-time collaboration                 │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 7: Mobile Experience                                     │
+│  PWA, React Native, offline support                             │
+└─────────────────────────────────────────────────────────────────┘
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  PHASE 8-12: Scale & Monetize                                   │
+│  Subscriptions, enterprise, i18n, API ecosystem                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Phase 1: Security Hardening
 
-**Priority:** Critical
-**Focus:** Strengthen security posture and ensure compliance readiness
+**Priority:** CRITICAL
+**Status:** In Progress
+**Focus:** Close security gaps before public launch
 
-### 1.1 Authentication Enhancements
+### 1.1 Fix Critical Vulnerabilities
 
-- [ ] Add multi-factor authentication (MFA) support
-- [ ] Implement OAuth providers (Google, GitHub, Apple)
-- [ ] Add session management dashboard for users
-- [ ] Implement account lockout after failed attempts
-- [ ] Add password strength requirements and validation
-- [ ] Create secure password reset flow with rate limiting
+| Task | File | Status |
+|------|------|--------|
+| Add JWT auth to generate-image | `supabase/functions/generate-image/index.ts` | Pending |
+| Add rate limiting to generate-image | `supabase/functions/generate-image/index.ts` | Pending |
+| Configure specific CORS origins | Both edge functions | Pending |
+| Persist rate limiting (Redis/DB) | Edge functions | Pending |
 
-**Key Deliverables:**
-- MFA integration with TOTP
-- Social login buttons
-- User session management UI
+### 1.2 Authentication Enhancements
 
-### 1.2 API Security Improvements
+| Task | Description | Status |
+|------|-------------|--------|
+| MFA/TOTP support | Add authenticator app support | Pending |
+| OAuth providers | Google, GitHub, Apple sign-in | Pending |
+| Session management UI | View/revoke active sessions | Pending |
+| Account lockout | Block after failed attempts | Pending |
+| Password requirements | Minimum strength, validation | Pending |
 
-- [ ] Add authentication to `generate-image` edge function
-- [ ] Implement rate limiting for all edge functions
-- [ ] Configure specific CORS origins (remove wildcard)
-- [ ] Add request signing for API calls
-- [ ] Implement API key management for integrations
-- [ ] Add webhook signature verification
+### 1.3 Compliance & Privacy
 
-**Key Deliverables:**
-- Secured image generation endpoint
-- Rate limiting middleware
-- API key management dashboard
+| Task | Description | Status |
+|------|-------------|--------|
+| GDPR data export | Export user data on request | Pending |
+| Right to deletion | Complete data removal | Pending |
+| Consent management | Cookie/data processing consent | Pending |
+| Admin audit UI | View audit logs in dashboard | Pending |
 
-### 1.3 Compliance & Audit
+### Deliverables
 
-- [ ] Implement GDPR data export functionality
-- [ ] Add data deletion (right to be forgotten) feature
-- [ ] Create comprehensive audit trail UI for admins
-- [ ] Add consent management for data processing
-- [ ] Implement data retention policies
-- [ ] Create security incident response procedures
-
-**Key Deliverables:**
-- GDPR compliance tools
-- Admin audit dashboard
-- Privacy policy management
+- [ ] Secured image generation endpoint
+- [ ] Rate limiting middleware
+- [ ] MFA integration
+- [ ] OAuth buttons (Google, GitHub)
+- [ ] GDPR compliance tools
 
 ---
 
 ## Phase 2: Performance Optimization
 
 **Priority:** High
-**Focus:** Improve application speed and resource efficiency
+**Focus:** Speed and efficiency
 
-### 2.1 Frontend Performance
+### 2.1 Frontend Optimization
 
-- [ ] Implement React.lazy() for route-based code splitting
-- [ ] Add Suspense boundaries with loading states
-- [ ] Implement useMemo/useCallback for expensive computations
-- [ ] Add virtual scrolling for large flashcard lists (react-window)
-- [ ] Optimize React Query cache configurations
-- [ ] Implement prefetching for predictable user actions
+| Task | Impact | Implementation |
+|------|--------|----------------|
+| Route code splitting | -40% initial bundle | `React.lazy()` + Suspense |
+| Component memoization | Reduced re-renders | `useMemo`, `useCallback` |
+| Virtual scrolling | Large list performance | `react-window` |
+| Image lazy loading | Faster page loads | Intersection Observer |
+| React Query tuning | Better caching | Stale time, cache time config |
 
-**Key Deliverables:**
-- 40% reduction in initial bundle size
-- Smooth scrolling for 1000+ items
-- Sub-100ms interaction times
+### 2.2 Database Optimization
 
-### 2.2 Database Performance
+```sql
+-- Priority indexes to add
+CREATE INDEX idx_decks_user_id ON public.decks(user_id);
+CREATE INDEX idx_flashcards_deck_id ON public.flashcards(deck_id);
+CREATE INDEX idx_study_sessions_user_deck ON public.study_sessions(user_id, deck_id);
+CREATE INDEX idx_flashcard_perf_session ON public.flashcard_performance(session_id);
+CREATE INDEX idx_audit_log_created ON public.audit_log(created_at DESC);
+```
 
-- [ ] Add indexes for frequently queried columns
-  - `decks(user_id)`
-  - `flashcards(deck_id)`
-  - `study_sessions(user_id, deck_id)`
-  - `audit_log(created_at)`
-- [ ] Implement query result caching with Redis
-- [ ] Add database connection pooling optimization
-- [ ] Create materialized views for analytics queries
-- [ ] Implement pagination for all list endpoints
-- [ ] Add query performance monitoring
+### 2.3 Network Optimization
 
-**Key Deliverables:**
-- Database index migration
-- Redis caching layer
-- Query performance dashboard
+| Task | Description |
+|------|-------------|
+| Service worker | Offline caching, PWA foundation |
+| Request batching | Combine multiple API calls |
+| Response compression | Brotli/gzip |
+| CDN configuration | Static asset caching |
 
-### 2.3 Asset & Network Optimization
+### Deliverables
 
-- [ ] Implement image lazy loading with blur placeholders
-- [ ] Add service worker for offline capability
-- [ ] Configure CDN for static assets
-- [ ] Implement HTTP/2 push for critical resources
-- [ ] Add response compression (Brotli)
-- [ ] Implement request batching for multiple API calls
-
-**Key Deliverables:**
-- PWA support with offline mode
-- CDN integration
-- 50% faster asset loading
+- [ ] 40% reduction in initial bundle
+- [ ] Database index migration
+- [ ] Service worker implementation
+- [ ] Lighthouse score > 90
 
 ---
 
 ## Phase 3: Testing Infrastructure
 
 **Priority:** High
-**Focus:** Establish comprehensive testing and quality assurance
+**Focus:** Code quality and reliability
 
-### 3.1 Unit Testing Framework
+### 3.1 Unit Testing
 
-- [ ] Set up Vitest testing framework
-- [ ] Create test utilities and mock factories
-- [ ] Write unit tests for security utilities (>90% coverage)
-- [ ] Add unit tests for custom hooks
-- [ ] Implement snapshot testing for UI components
-- [ ] Create test coverage reporting pipeline
+| Task | Tool | Target Coverage |
+|------|------|-----------------|
+| Security utilities | Vitest | >90% |
+| Custom hooks | Vitest + Testing Library | >80% |
+| Component logic | Vitest + Testing Library | >70% |
+| Utility functions | Vitest | >90% |
 
-**Key Deliverables:**
-- Vitest configuration
-- 80%+ code coverage
-- CI/CD test integration
+```bash
+# Setup
+npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event
+```
 
-### 3.2 Integration & E2E Testing
+### 3.2 E2E Testing
 
-- [ ] Set up Playwright for E2E testing
-- [ ] Create test fixtures for common scenarios
-- [ ] Write E2E tests for authentication flows
-- [ ] Add E2E tests for flashcard CRUD operations
-- [ ] Implement visual regression testing
-- [ ] Create smoke test suite for deployments
+| Flow | Tool | Priority |
+|------|------|----------|
+| Authentication | Playwright | High |
+| Deck CRUD | Playwright | High |
+| Flashcard CRUD | Playwright | High |
+| Study session | Playwright | Medium |
+| AI generation | Playwright | Medium |
 
-**Key Deliverables:**
-- Playwright test suite
-- Visual regression baseline
-- Deployment verification tests
+```bash
+# Setup
+npm install -D @playwright/test
+npx playwright install
+```
 
-### 3.3 Continuous Quality
+### 3.3 CI/CD Pipeline
 
-- [ ] Implement automated code review checks
-- [ ] Add SonarQube for code quality analysis
-- [ ] Create performance regression testing
-- [ ] Implement security scanning (SAST/DAST)
-- [ ] Add accessibility testing automation (axe-core)
-- [ ] Create mutation testing for test quality validation
+```yaml
+# .github/workflows/ci.yml
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+```
 
-**Key Deliverables:**
-- Automated quality gates
-- Security scan integration
-- Performance budgets
+### Deliverables
+
+- [ ] Vitest configuration
+- [ ] 80%+ unit test coverage
+- [ ] Playwright test suite
+- [ ] GitHub Actions CI pipeline
+- [ ] Pre-commit hooks (Husky)
 
 ---
 
 ## Phase 4: Enhanced Study Features
 
 **Priority:** High
-**Focus:** Improve the core flashcard learning experience
+**Focus:** Core learning experience improvements
 
 ### 4.1 Spaced Repetition System (SRS)
 
-- [ ] Implement SM-2 algorithm for optimal review scheduling
-- [ ] Create card familiarity scoring system
-- [ ] Add "next review" date tracking per card
-- [ ] Build daily review queue with priorities
-- [ ] Implement adaptive difficulty adjustment
-- [ ] Create learning streak and consistency tracking
+| Component | Description |
+|-----------|-------------|
+| SM-2 Algorithm | Calculate optimal review intervals |
+| Familiarity scores | Track card mastery (0-1) |
+| Review queue | Daily prioritized cards |
+| Adaptive difficulty | Adjust based on performance |
+| Learning curves | Visualize forgetting patterns |
 
-**Key Deliverables:**
-- SRS engine implementation
-- Smart review scheduling
-- Learning optimization dashboard
+```typescript
+// SM-2 Algorithm pseudocode
+interface CardReview {
+  easeFactor: number;     // 1.3 - 2.5
+  interval: number;       // days until next review
+  repetitions: number;    // successful reviews
+  nextReview: Date;
+}
+
+function calculateNextReview(card: CardReview, quality: number): CardReview {
+  // quality: 0-5 (0-2 = forgotten, 3-5 = remembered)
+  if (quality < 3) {
+    return { ...card, repetitions: 0, interval: 1 };
+  }
+
+  const newEF = Math.max(1.3, card.easeFactor + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02));
+  const newInterval = card.repetitions === 0 ? 1
+    : card.repetitions === 1 ? 6
+    : Math.round(card.interval * newEF);
+
+  return {
+    easeFactor: newEF,
+    interval: newInterval,
+    repetitions: card.repetitions + 1,
+    nextReview: addDays(new Date(), newInterval),
+  };
+}
+```
 
 ### 4.2 Study Modes
 
-- [ ] Add "Quiz Mode" with multiple choice options
-- [ ] Create "Match Mode" for term/definition matching
-- [ ] Implement "Write Mode" for typed answers
-- [ ] Add "Audio Mode" with text-to-speech
-- [ ] Create "Timed Challenge" mode
-- [ ] Build "Collaborative Study" real-time mode
-
-**Key Deliverables:**
-- 5+ new study modes
-- Mode selection interface
-- Mode-specific analytics
+| Mode | Description | Implementation |
+|------|-------------|----------------|
+| Classic Flip | Current mode | Complete |
+| Quiz Mode | Multiple choice | New component |
+| Match Mode | Drag & drop matching | New component |
+| Write Mode | Typed answers | New component |
+| Audio Mode | Text-to-speech | Web Speech API |
+| Timed Challenge | Speed rounds | Timer overlay |
 
 ### 4.3 Content Organization
 
-- [ ] Implement folders/collections for deck organization
-- [ ] Add tagging system with auto-suggestions
-- [ ] Create smart filters and saved searches
-- [ ] Implement deck templates for quick creation
-- [ ] Add bulk import/export (CSV, Anki, Quizlet)
-- [ ] Create card linking and cross-references
+| Feature | Description |
+|---------|-------------|
+| Folders/Collections | Hierarchical deck organization |
+| Tags | Cross-deck categorization |
+| Smart filters | Saved search queries |
+| Templates | Quick deck creation |
+| Import/Export | CSV, Anki, Quizlet formats |
 
-**Key Deliverables:**
-- Folder hierarchy system
-- Import/export tools
-- Advanced search functionality
+### Deliverables
+
+- [ ] SRS engine (SM-2)
+- [ ] Review scheduling system
+- [ ] Quiz mode component
+- [ ] Match mode component
+- [ ] Folder hierarchy
+- [ ] Import/export tools
 
 ---
 
 ## Phase 5: AI Capabilities Expansion
 
 **Priority:** High
-**Focus:** Leverage AI to enhance learning and creation
+**Focus:** Smarter content generation
 
-### 5.1 Advanced Content Generation
+### 5.1 Advanced Generation
 
-- [ ] Implement bulk flashcard generation from topics
-- [ ] Add document/PDF to flashcard conversion
-- [ ] Create image-to-flashcard OCR extraction
-- [ ] Implement adaptive question difficulty generation
-- [ ] Add multi-language content generation
-- [ ] Create context-aware answer suggestions
+| Feature | Input | Output |
+|---------|-------|--------|
+| Bulk generation | Topic + count | Multiple flashcards |
+| Document parsing | PDF/DOCX | Extracted flashcards |
+| Image OCR | Image file | Text extraction |
+| Multi-language | Language setting | Translated content |
+| Difficulty tuning | Target level | Adjusted complexity |
 
-**Key Deliverables:**
-- Bulk generation tool
-- Document parser integration
-- Multi-language support
+### 5.2 Personalized Learning
 
-### 5.2 Personalized Learning AI
-
-- [ ] Build learning pattern analysis engine
-- [ ] Create personalized study recommendations
-- [ ] Implement weak area identification
-- [ ] Add optimal study time predictions
-- [ ] Create adaptive content difficulty
-- [ ] Build AI-powered progress predictions
-
-**Key Deliverables:**
-- ML recommendation engine
-- Personal learning insights
-- Predictive analytics
+| Feature | Description |
+|---------|-------------|
+| Learning patterns | Analyze study habits |
+| Weak area detection | Identify struggling topics |
+| Study recommendations | Optimal time/content |
+| Progress predictions | Mastery timeline |
+| Adaptive content | Dynamic difficulty |
 
 ### 5.3 Creative AI Tools
 
-- [ ] Implement style transfer for images
-- [ ] Add image variation generation
-- [ ] Create mnemonic device generator
-- [ ] Implement diagram/chart generation from concepts
-- [ ] Add voice synthesis for audio flashcards
-- [ ] Create video explanation generation
+| Tool | Description |
+|------|-------------|
+| Mnemonic generator | Memory aids for cards |
+| Diagram generation | Visual explanations |
+| Audio synthesis | Pronunciation practice |
+| Explanation elaboration | Expand brief answers |
 
-**Key Deliverables:**
-- Enhanced image generation
-- Audio/video content creation
-- Visual learning aids
+### Deliverables
+
+- [ ] Bulk generation UI
+- [ ] PDF parser integration
+- [ ] Learning analytics engine
+- [ ] Personalized recommendations
+- [ ] Enhanced AI Studio
 
 ---
 
 ## Phase 6: Social & Collaboration
 
 **Priority:** Medium
-**Focus:** Build community and collaborative learning features
+**Focus:** Community features
 
 ### 6.1 Social Features
 
-- [ ] Implement user profiles with public pages
-- [ ] Add following/followers system
-- [ ] Create activity feed for followed users
-- [ ] Implement deck likes and bookmarks
-- [ ] Add deck comments and discussions
-- [ ] Create achievement and badge system
+| Feature | Description |
+|---------|-------------|
+| Public profiles | User pages with bio, stats |
+| Following system | Follow creators |
+| Activity feed | Updates from followed users |
+| Likes & bookmarks | Save favorite decks |
+| Comments | Deck discussions |
+| Achievements | Gamification badges |
 
-**Key Deliverables:**
-- User profile pages
-- Social graph implementation
-- Gamification system
+### 6.2 Marketplace
 
-### 6.2 Deck Sharing & Discovery
+| Feature | Description |
+|---------|-------------|
+| Deck discovery | Search, filter, trending |
+| Ratings & reviews | User feedback |
+| Deck forking | Clone and modify |
+| Featured content | Curated collections |
+| Creator verification | Trusted badges |
 
-- [ ] Build public deck marketplace
-- [ ] Implement deck search with filters
-- [ ] Create trending and featured sections
-- [ ] Add deck ratings and reviews
-- [ ] Implement deck forking/cloning
-- [ ] Create curator/verified creator program
+### 6.3 Real-time Collaboration
 
-**Key Deliverables:**
-- Deck marketplace
-- Discovery algorithms
-- Creator verification
+| Feature | Description |
+|---------|-------------|
+| Shared editing | Multiple editors per deck |
+| Study groups | Classroom features |
+| Group challenges | Competitive learning |
+| Live study sessions | Sync'd studying |
 
-### 6.3 Collaborative Study
+### Deliverables
 
-- [ ] Implement shared deck editing (real-time)
-- [ ] Create study groups/classrooms
-- [ ] Add group challenges and competitions
-- [ ] Implement peer review for flashcards
-- [ ] Create collaborative deck creation workflow
-- [ ] Add classroom management for educators
-
-**Key Deliverables:**
-- Real-time collaboration
-- Classroom features
-- Group analytics
+- [ ] Profile pages
+- [ ] Follow system
+- [ ] Deck marketplace
+- [ ] Real-time deck editing (Yjs/CRDT)
+- [ ] Study group management
 
 ---
 
 ## Phase 7: Mobile Experience
 
 **Priority:** Medium
-**Focus:** Deliver native mobile experience
+**Focus:** Cross-platform access
 
-### 7.1 Progressive Web App (PWA)
+### 7.1 Progressive Web App
 
-- [ ] Implement full offline support with sync
-- [ ] Add push notifications for study reminders
-- [ ] Create home screen installation prompt
-- [ ] Implement background sync for offline changes
-- [ ] Add share target for quick card creation
-- [ ] Create mobile-optimized UI components
+| Feature | Description |
+|---------|-------------|
+| Offline study | Service worker caching |
+| Push notifications | Study reminders |
+| Home screen install | App-like experience |
+| Background sync | Offline changes |
 
-**Key Deliverables:**
-- Installable PWA
-- Offline study capability
-- Push notification system
+### 7.2 React Native App
 
-### 7.2 React Native Application
+| Platform | Features |
+|----------|----------|
+| iOS | Native navigation, biometrics, widgets |
+| Android | Material design, widgets, notifications |
+| Shared | Core components, API layer |
 
-- [ ] Set up React Native project structure
-- [ ] Create shared component library
-- [ ] Implement native navigation patterns
-- [ ] Add biometric authentication
-- [ ] Create native camera integration for OCR
-- [ ] Implement haptic feedback for interactions
+### 7.3 Mobile-Specific
 
-**Key Deliverables:**
-- iOS application
-- Android application
-- App store submissions
+| Feature | Description |
+|---------|-------------|
+| Gesture navigation | Swipe to flip/dismiss |
+| Voice input | Hands-free card creation |
+| Camera OCR | Scan text to cards |
+| Widgets | Home screen study reminders |
 
-### 7.3 Mobile-Specific Features
+### Deliverables
 
-- [ ] Implement gesture-based card navigation
-- [ ] Add voice input for card creation
-- [ ] Create widget for study reminders (iOS/Android)
-- [ ] Implement Apple Watch/Wear OS companion
-- [ ] Add CarPlay/Android Auto study mode
-- [ ] Create Siri/Google Assistant integration
-
-**Key Deliverables:**
-- Platform widgets
-- Voice assistant integration
-- Wearable support
+- [ ] Installable PWA
+- [ ] Offline mode
+- [ ] Push notifications
+- [ ] React Native project
+- [ ] iOS App Store submission
+- [ ] Google Play Store submission
 
 ---
 
 ## Phase 8: Monetization & Business
 
 **Priority:** Medium
-**Focus:** Establish sustainable revenue streams
+**Focus:** Revenue sustainability
 
 ### 8.1 Subscription Tiers
 
-- [ ] Design free, pro, and team tier structures
-- [ ] Implement Stripe payment integration
-- [ ] Create subscription management UI
-- [ ] Add usage metering and limits
-- [ ] Implement trial period functionality
-- [ ] Create upgrade prompts and paywalls
-
-**Key Deliverables:**
-- Subscription system
-- Payment processing
-- Tier management
+| Tier | Price | Features |
+|------|-------|----------|
+| Free | $0 | 5 decks, 50 cards, basic AI (10/day) |
+| Pro | $9.99/mo | Unlimited, advanced AI, analytics |
+| Team | $19.99/mo | Pro + collaboration, admin tools |
+| Enterprise | Custom | SSO, custom branding, SLA |
 
 ### 8.2 Creator Economy
 
-- [ ] Implement paid deck marketplace
-- [ ] Create creator payout system
-- [ ] Add revenue analytics for creators
-- [ ] Implement affiliate/referral program
-- [ ] Create creator verification and tiers
-- [ ] Add tip/donation functionality
+| Feature | Description |
+|---------|-------------|
+| Paid decks | Sell premium content |
+| Payouts | Stripe Connect integration |
+| Analytics | Revenue tracking |
+| Affiliates | Referral program |
+| Tips | Optional creator support |
 
-**Key Deliverables:**
-- Creator monetization
-- Payout infrastructure
-- Revenue tracking
+### Deliverables
 
-### 8.3 Business Tools
-
-- [ ] Create team/organization management
-- [ ] Implement seat-based licensing
-- [ ] Add invoice and billing management
-- [ ] Create usage reporting for businesses
-- [ ] Implement SSO integration (SAML, OIDC)
-- [ ] Add custom branding for teams
-
-**Key Deliverables:**
-- Team management
-- Enterprise billing
-- SSO integration
+- [ ] Stripe integration
+- [ ] Subscription management
+- [ ] Usage metering
+- [ ] Creator payout system
+- [ ] Enterprise billing
 
 ---
 
 ## Phase 9: Analytics & Insights
 
 **Priority:** Medium
-**Focus:** Provide data-driven learning insights
+**Focus:** Data-driven learning
 
-### 9.1 Enhanced Learning Analytics
+### Features
 
-- [ ] Build comprehensive study history dashboard
-- [ ] Create retention curve visualizations
-- [ ] Implement forgetting curve analysis
-- [ ] Add time-of-day performance insights
-- [ ] Create topic mastery heatmaps
-- [ ] Build comparative analytics (vs. averages)
-
-**Key Deliverables:**
-- Analytics dashboard v2
-- Retention analysis tools
-- Performance insights
-
-### 9.2 Content Analytics
-
-- [ ] Track deck popularity and engagement
-- [ ] Implement card difficulty analytics
-- [ ] Create content quality scoring
-- [ ] Add A/B testing for card variants
-- [ ] Build confusion point identification
-- [ ] Create content effectiveness reports
-
-**Key Deliverables:**
-- Content performance metrics
-- Quality scoring system
-- Effectiveness reports
-
-### 9.3 Business Intelligence
-
-- [ ] Create admin analytics dashboard
-- [ ] Implement user cohort analysis
-- [ ] Build revenue analytics and forecasting
-- [ ] Add churn prediction models
-- [ ] Create feature usage analytics
-- [ ] Build custom report builder
-
-**Key Deliverables:**
-- Admin BI dashboard
-- Predictive analytics
-- Custom reporting
+- Enhanced learning analytics dashboard
+- Retention curve visualizations
+- Forgetting curve analysis
+- Time-of-day performance insights
+- Topic mastery heatmaps
+- Comparative analytics
+- Content quality scoring
+- A/B testing for card variants
+- Business intelligence dashboard
 
 ---
 
 ## Phase 10: Enterprise Features
 
 **Priority:** Low
-**Focus:** Scale for enterprise and institutional adoption
+**Focus:** B2B expansion
 
-### 10.1 Administration & Control
+### Features
 
-- [ ] Build enterprise admin console
-- [ ] Implement role-based access control (RBAC)
-- [ ] Create content approval workflows
-- [ ] Add centralized user management
-- [ ] Implement audit log export and SIEM integration
-- [ ] Create compliance reporting tools
-
-**Key Deliverables:**
-- Enterprise admin panel
+- Enterprise admin console
 - Advanced RBAC
-- Compliance tools
-
-### 10.2 Learning Management Integration
-
-- [ ] Implement LTI 1.3 for LMS integration
-- [ ] Add SCORM package export
-- [ ] Create xAPI (Tin Can) support
-- [ ] Build Blackboard/Canvas/Moodle connectors
-- [ ] Implement grade passback
-- [ ] Create course assignment features
-
-**Key Deliverables:**
-- LMS integrations
-- SCORM support
-- Grade sync
-
-### 10.3 Enterprise Security
-
-- [ ] Implement IP whitelisting
-- [ ] Add data residency options
-- [ ] Create advanced audit capabilities
-- [ ] Implement DLP policies
-- [ ] Add custom security policies
-- [ ] Create SLA monitoring and reporting
-
-**Key Deliverables:**
-- Enterprise security controls
-- Data governance
-- SLA management
+- Content approval workflows
+- LTI 1.3 integration (LMS)
+- SCORM/xAPI support
+- IP whitelisting
+- Data residency options
+- SLA monitoring
 
 ---
 
-## Phase 11: Accessibility & Internationalization
+## Phase 11: Accessibility & i18n
 
 **Priority:** Low
-**Focus:** Make the platform globally accessible
+**Focus:** Global accessibility
 
-### 11.1 Accessibility (a11y)
+### Accessibility (a11y)
 
-- [ ] Achieve WCAG 2.1 AA compliance
-- [ ] Implement screen reader optimization
-- [ ] Add keyboard navigation throughout
-- [ ] Create high contrast theme
-- [ ] Implement reduced motion options
-- [ ] Add focus management improvements
+- WCAG 2.1 AA compliance
+- Screen reader optimization
+- Keyboard navigation
+- High contrast theme
+- Reduced motion support
 
-**Key Deliverables:**
-- WCAG 2.1 AA certification
-- Accessibility audit fixes
-- a11y testing integration
+### Internationalization
 
-### 11.2 Internationalization (i18n)
-
-- [ ] Set up i18n framework (react-intl)
-- [ ] Extract all user-facing strings
-- [ ] Create translation management workflow
-- [ ] Implement RTL layout support
-- [ ] Add locale-specific formatting
-- [ ] Create language switching UI
-
-**Key Deliverables:**
-- i18n infrastructure
+- i18n framework (react-intl)
 - 10+ language translations
-- RTL support
-
-### 11.3 Localization (l10n)
-
-- [ ] Implement locale-specific date/time formats
-- [ ] Add currency and number formatting
-- [ ] Create region-specific content recommendations
-- [ ] Implement local payment methods
-- [ ] Add regional compliance handling
-- [ ] Create culturally appropriate imagery
-
-**Key Deliverables:**
-- Full localization
-- Regional payment support
-- Cultural adaptation
+- RTL layout support
+- Locale-specific formatting
+- Regional payment methods
 
 ---
 
 ## Phase 12: Platform Ecosystem
 
 **Priority:** Low
-**Focus:** Enable extensibility and developer ecosystem
+**Focus:** Developer platform
 
-### 12.1 Public API
+### Public API
 
-- [ ] Design RESTful public API
-- [ ] Create GraphQL API layer
-- [ ] Implement API versioning strategy
-- [ ] Build API documentation portal
-- [ ] Add API playground/explorer
-- [ ] Create rate limiting tiers for API
+- RESTful API design
+- GraphQL layer
+- API versioning
+- Documentation portal
+- Rate limiting tiers
 
-**Key Deliverables:**
-- Public REST API
-- GraphQL support
-- API documentation
+### Developer Tools
 
-### 12.2 Developer Tools
+- SDKs (JavaScript, Python, Swift)
+- CLI tool
+- Webhook system
+- Plugin architecture
+- Embeddable widgets
 
-- [ ] Create SDK libraries (JavaScript, Python, Swift)
-- [ ] Build CLI tool for developers
-- [ ] Implement webhook system
-- [ ] Create plugin/extension architecture
-- [ ] Add custom theme/branding API
-- [ ] Build embeddable widget library
+### Marketplace
 
-**Key Deliverables:**
-- Multi-language SDKs
-- Webhook infrastructure
-- Extension system
-
-### 12.3 Integration Marketplace
-
-- [ ] Build integration catalog
-- [ ] Create integration submission workflow
-- [ ] Implement OAuth app authorization
-- [ ] Add integration analytics
-- [ ] Create developer documentation site
-- [ ] Build partner program structure
-
-**Key Deliverables:**
-- Integration marketplace
+- Integration catalog
+- OAuth app authorization
 - Developer portal
 - Partner program
 
@@ -625,58 +589,75 @@ FlashFusion Creative Hub aims to become the premier AI-powered learning and crea
 
 ## Success Metrics
 
-### Key Performance Indicators (KPIs)
+### Key Performance Indicators
 
-| Metric | Current | Target (12 mo) |
-|--------|---------|----------------|
-| Monthly Active Users | - | 10,000 |
-| Average Session Duration | - | 15 min |
-| Cards Studied Daily | - | 50,000 |
-| Deck Creation Rate | - | 500/week |
-| AI Generation Usage | - | 5,000/week |
-| User Retention (30-day) | - | 40% |
-| NPS Score | - | 50+ |
+| Metric | Current | 6mo Target | 12mo Target |
+|--------|---------|------------|-------------|
+| Monthly Active Users | - | 5,000 | 25,000 |
+| Avg Session Duration | - | 10 min | 15 min |
+| Cards Studied/Day | - | 10,000 | 100,000 |
+| Deck Creation Rate | - | 200/week | 1,000/week |
+| User Retention (30d) | - | 30% | 45% |
+| NPS Score | - | 40+ | 55+ |
 
 ### Technical Metrics
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| Page Load Time | - | <2s |
-| API Response Time | - | <200ms |
+| Page Load Time | Unknown | <2s |
+| API Response Time | Unknown | <200ms |
 | Test Coverage | 0% | 80% |
-| Uptime | - | 99.9% |
-| Security Vulnerabilities | - | 0 critical |
+| Uptime | Unknown | 99.9% |
+| Critical Vulnerabilities | 3 | 0 |
 
 ---
 
-## Release Schedule
+## Resource Requirements
 
-| Phase | Start | Target Completion |
-|-------|-------|-------------------|
-| Phase 1 | Q1 2026 | Q1 2026 |
-| Phase 2 | Q1 2026 | Q2 2026 |
-| Phase 3 | Q2 2026 | Q2 2026 |
-| Phase 4 | Q2 2026 | Q3 2026 |
-| Phase 5 | Q3 2026 | Q4 2026 |
-| Phase 6 | Q3 2026 | Q4 2026 |
-| Phase 7 | Q4 2026 | Q1 2027 |
-| Phase 8 | Q4 2026 | Q1 2027 |
-| Phase 9 | Q1 2027 | Q2 2027 |
-| Phase 10 | Q2 2027 | Q3 2027 |
-| Phase 11 | Q2 2027 | Q3 2027 |
-| Phase 12 | Q3 2027 | Q4 2027 |
+### Team Composition (Recommended)
+
+| Role | Phase 1-3 | Phase 4-6 | Phase 7-12 |
+|------|-----------|-----------|------------|
+| Full-Stack Engineer | 1 | 2 | 3 |
+| Frontend Engineer | 1 | 1 | 2 |
+| Backend Engineer | 0 | 1 | 2 |
+| Mobile Engineer | 0 | 0 | 2 |
+| QA Engineer | 0 | 1 | 2 |
+| Product Designer | 0.5 | 1 | 1 |
+| DevOps | 0.5 | 0.5 | 1 |
+
+### Infrastructure
+
+| Phase | Requirements |
+|-------|--------------|
+| 1-3 | Current Supabase plan |
+| 4-6 | Upgraded Supabase, Redis |
+| 7-9 | CDN, mobile backends |
+| 10-12 | Multi-region, enterprise SLA |
 
 ---
 
-## Contributing to the Roadmap
+## Risk Assessment
 
-This roadmap is a living document. To suggest changes or additions:
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+| Security breach | Critical | Phase 1 priority, penetration testing |
+| OpenAI API costs | High | Usage limits, caching, cost monitoring |
+| Scalability limits | Medium | Database indexes, caching layer |
+| Mobile complexity | Medium | Cross-platform React Native |
+| Competition | Medium | Focus on AI differentiation |
+
+---
+
+## Contributing
+
+This roadmap is a living document. To suggest changes:
 
 1. Open an issue with the `roadmap` label
 2. Describe the feature or change
-3. Explain the user value and business impact
-4. Include any technical considerations
+3. Explain user value and business impact
+4. Include technical considerations
 
 ---
 
-*Last updated: December 21, 2025*
+*Last updated: December 30, 2025*
